@@ -1,0 +1,21 @@
+{
+  "name": "api-ingressos-alta-demanda",
+  "version": "1.0.0",
+  "private": true,
+  "description": "API REST de reserva de 100 ingressos com controle de concorrência e fila FIFO",
+  "type": "module",
+  "scripts": {
+    "start": "node src/app.js",
+    "test": "node scripts/test-api.mjs",
+    "test:concorrencia": "node scripts/test-concorrencia.mjs",
+    "test:regras": "node scripts/test-regras.mjs",
+    "test:carga": "node scripts/test-carga.mjs"
+  },
+  "engines": { "node": ">=22" },
+  "dependencies": {
+    "bcryptjs": "3.0.3",
+    "express": "5.3.0",
+    "jsonwebtoken": "9.0.3",
+    "pg": "8.23.1"
+  }
+}

@@ -1,0 +1,43 @@
+services:
+  banco:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ingressos
+      POSTGRES_USER: ingressos
+      POSTGRES_PASSWORD: senha-local-apenas
+    volumes:
+      - dados_postgres:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U ingressos -d ingressos"]
+      interval: 2s
+      timeout: 3s
+      retries: 25
+      start_period: 5s
+
+  api:
+    build: .
+    restart: unless-stopped
+    environment:
+      PORT: "8080"
+      PGHOST: banco
+      PGPORT: "5432"
+      PGUSER: ingressos
+      PGPASSWORD: senha-local-apenas
+      PGDATABASE: ingressos
+      JWT_SECRET: "segredo-de-demonstracao-mude-em-producao-2026"
+    ports:
+      - "8080:8080"
+    depends_on:
+      banco:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8080/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  dados_postgres:
