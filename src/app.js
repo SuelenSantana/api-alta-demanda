@@ -126,7 +126,15 @@ app.use((erro, _req, res, _next) => {
 });
 
 const porta = Number(process.env.PORT ?? 8080);
-const servidor = app.listen(porta, '0.0.0.0', () => {
+const servidor = app.listen(porta, '0.0.0.0', (erro) => {
+  // No Express 5 o callback recebe o erro de listen (ex.: porta em uso).
+  if (erro) {
+    console.error(`Não foi possível abrir a porta ${porta}: ${erro.code ?? erro.message}`);
+    if (erro.code === 'EADDRINUSE') {
+      console.error('Outra instância da API (ou outro programa) já está usando essa porta.');
+    }
+    process.exit(1);
+  }
   console.log(`API de ingressos disponível na porta ${porta}`);
 });
 
