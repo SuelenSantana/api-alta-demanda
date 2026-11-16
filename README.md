@@ -37,6 +37,21 @@ curl http://localhost:8080/health
 
 Resposta: `{"status":"ok"}`.
 
+## Executar sem Docker (Windows)
+
+Para computadores que não suportam o Docker: com Node.js 22+ e PostgreSQL 17 instalados (detalhes e solução de problemas na seção 11.2 do [DOCUMENTO.md](DOCUMENTO.md)):
+
+```powershell
+scripts\iniciar-local.ps1          # terminal 1: liga o PostgreSQL e a API
+npm test                           # terminal 2: testes (também test:regras e test:concorrencia)
+scripts\resetar-banco-local.ps1    # recria o banco (pare a API antes)
+scripts\parar-local.ps1            # desliga o PostgreSQL
+```
+
+## Documentação em Word
+
+O [DOCUMENTO.docx](DOCUMENTO.docx) é gerado a partir do `DOCUMENTO.md`. Depois de editar o Markdown, gere de novo com `npm run docx`. Ao abrir no Word, aceite atualizar os campos para montar o sumário.
+
 ## Endpoints obrigatórios
 
 ### 1) Registro

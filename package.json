@@ -9,7 +9,8 @@
     "test": "node scripts/test-api.mjs",
     "test:concorrencia": "node scripts/test-concorrencia.mjs",
     "test:regras": "node scripts/test-regras.mjs",
-    "test:carga": "node scripts/test-carga.mjs"
+    "test:carga": "node scripts/test-carga.mjs",
+    "docx": "node scripts/gerar-docx.mjs"
   },
   "engines": { "node": ">=22" },
   "dependencies": {
